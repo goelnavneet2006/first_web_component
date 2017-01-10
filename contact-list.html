@@ -1,0 +1,94 @@
+<!-- html using <slot> instead of <content> -->
+<!--
+<html>
+  <body>
+    <ul id="contacts">
+      <li>
+        <span slot="fullName">Navneet Goel</span>
+        (<a slot="email" href="mailto:goelnavneet2006@gmail.com">goelnavneet2006@gmail.com</a>)<br>
+        <span slot="address">San Bruno, CA 94066</span>
+      </li>
+      <li>
+        <span slot="fullName">Jyoti Kakkar</span>
+        (<a slot="email" href="mailto:jyotikakkar1188@gmail.com">jyotikakkar1188@gmail.com</a>)<br>
+        <span slot="address">San Bruno, CA 94066</span>
+      </li>
+    </ul>
+  </body>
+</html>
+-->
+
+<html>
+  <body>
+    <ul>
+      <list-item>
+        <span>Navneet Goel</span>
+      </list-item>
+      <list-item>
+        <span>Jyoti Kakkar</span>
+      </list-item>
+    </ul>
+  </body>
+</html>
+
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+      // var contacts = document.getElementById('contacts').children;
+      var template = document.getElementById('contact-template');
+      // for (var i = 0; i < contacts.length; i++)
+      //     contacts[i].createShadowRoot().appendChild(template.cloneNode(true));
+
+    var ListProto = Object.create(HTMLElement.prototype);
+
+    ListProto.createdCallback = function() {
+      var shadowRoot = this.createShadowRoot();
+      shadowRoot.appendChild(document.importNode(template.content, true));
+    };
+
+    var List = document.registerElement('list-item', {
+      prototype: ListProto
+    });
+
+  });
+</script>
+
+
+
+<template id="contact-template">
+  <style>
+    :host { border: solid 1px #ccc; border-radius: 0.5rem; padding: 0.5rem; margin: 0.5rem; }
+    b { display: inline-block; width: 5rem; }
+    ::content span {
+      color: green;
+    }
+  </style>
+
+  <b>Name</b>: 
+  <content select="span"></content>
+</template>
+
+
+<!-- template using <slot> instead of <content> -->
+<!--
+<template id="contact-template">
+
+  <style>
+    :host { border: solid 1px #ccc; border-radius: 0.5rem; padding: 0.5rem; margin: 0.5rem; }
+    b { display: inline-block; width: 5rem; }
+  </style>
+
+  <b>Name</b>: 
+  <slot name="fullName">
+    <slot name="firstName"></slot>
+    <slot name="lastName"></slot>
+  </slot>
+  <br>
+  <b>Email</b>: 
+  <slot name="email"></slot>
+  <br>
+  <b>Address</b>: 
+  <slot name="address"></slot>
+
+</template>
+-->
+
