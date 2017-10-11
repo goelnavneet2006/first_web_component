@@ -42,12 +42,16 @@
 
     ListProto.createdCallback = function() {
       var shadowRoot = this.createShadowRoot();
-      shadowRoot.appendChild(document.importNode(template.content, true));
+      var clonedTemp = document.importNode(template.content, true);
+      shadowRoot.appendChild(clonedTemp);
     };
 
     var List = document.registerElement('list-item', {
       prototype: ListProto
     });
+
+    var listEle = new List();
+    console.log(listEle);
 
   });
 </script>
